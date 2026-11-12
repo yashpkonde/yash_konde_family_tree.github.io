@@ -1,0 +1,231 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description" content="Family Tree Management System">
+
+    <title>Family Tree Management System</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Excel Library -->
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+</head>
+
+<body>
+
+<header>
+    <h1>Family Tree Management System</h1>
+    <p>Manage your family history in one place</p>
+</header>
+
+<nav>
+    <button onclick="showSection('dashboard')">Dashboard</button>
+    <button onclick="showSection('addMember')">Add Member</button>
+    <button onclick="showSection('members')">Members</button>
+    <button onclick="showSection('familyTree')">Family Tree</button>
+</nav>
+
+<main>
+
+    <!-- DASHBOARD -->
+    <section id="dashboard">
+
+        <h2>Dashboard</h2>
+
+        <div class="dashboard-cards">
+
+            <div class="card">
+                <h3>Total Members</h3>
+                <p id="totalMembers">0</p>
+            </div>
+
+            <div class="card">
+                <h3>Living Members</h3>
+                <p id="livingMembers">0</p>
+            </div>
+
+            <div class="card">
+                <h3>Deceased Members</h3>
+                <p id="deceasedMembers">0</p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ADD MEMBER -->
+    <section id="addMember" class="hidden">
+
+        <h2>Add Family Member</h2>
+
+        <form id="memberForm">
+
+            <input type="hidden" id="memberId">
+
+            <label for="firstName">First Name *</label>
+            <input type="text" id="firstName" required
+                   placeholder="Enter first name">
+
+            <label for="middleName">Middle Name</label>
+            <input type="text" id="middleName"
+                   placeholder="Enter middle name">
+
+            <label for="lastName">Last Name *</label>
+            <input type="text" id="lastName" required
+                   placeholder="Enter last name">
+
+            <label for="dob">Date of Birth *</label>
+            <input type="date" id="dob" required>
+
+            <label for="age">Age</label>
+            <input type="number" id="age" readonly
+                   placeholder="Automatically calculated">
+
+            <label for="dod">Date of Death (Optional)</label>
+            <input type="date" id="dod">
+
+            <label for="gender">Gender</label>
+            <select id="gender">
+                <option value="">Select Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+            </select>
+
+            <label for="occupation">Occupation</label>
+            <input type="text" id="occupation"
+                   placeholder="Enter occupation">
+
+            <label for="birthPlace">Birth Place</label>
+            <input type="text" id="birthPlace"
+                   placeholder="Enter birth place">
+
+            <label for="address">Current Address</label>
+            <textarea id="address"
+                      placeholder="Enter current address"></textarea>
+
+            <label for="spouseName">Spouse Name (Optional)</label>
+            <input type="text" id="spouseName"
+                   placeholder="Enter spouse name">
+
+            <label for="fatherId">Father</label>
+            <select id="fatherId">
+                <option value="">Select Father</option>
+            </select>
+
+            <label for="motherId">Mother</label>
+            <select id="motherId">
+                <option value="">Select Mother</option>
+            </select>
+
+            <label for="spouseId">Spouse (Optional)</label>
+            <select id="spouseId">
+                <option value="">Select Spouse</option>
+            </select>
+
+            <button type="submit">Save Member</button>
+
+            <button type="button" onclick="resetForm()">
+                Clear Form
+            </button>
+
+        </form>
+
+    </section>
+
+
+    <!-- MEMBERS -->
+    <section id="members" class="hidden">
+
+        <h2>Family Members</h2>
+
+        <input type="text" id="search"
+               placeholder="Search family members..."
+               oninput="displayMembers()">
+
+        <div class="excel-controls">
+
+            <button onclick="exportExcel()">
+                Export Excel
+            </button>
+
+            <label class="file-label">
+                Import Excel
+
+                <input type="file" id="excelFile"
+                       accept=".xlsx,.xls"
+                       onchange="importExcel(event)">
+            </label>
+
+        </div>
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>DOB</th>
+                        <th>Age</th>
+                        <th>Occupation</th>
+                        <th>Spouse</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody id="memberTable"></tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+    <!-- FAMILY TREE -->
+    <section id="familyTree" class="hidden">
+
+        <h2>Family Tree</h2>
+
+        <p class="tree-description">
+            View your family members and relationships
+            across multiple generations.
+        </p>
+
+        <div class="tree-legend">
+
+            <span>
+                <span class="legend-box living-legend"></span>
+                Living Member
+            </span>
+
+            <span>
+                <span class="legend-box deceased-legend"></span>
+                Deceased Member
+            </span>
+
+            <span>♥ Spouse Relationship</span>
+
+        </div>
+
+        <div id="treeContainer">
+            <div class="tree-empty">
+                No family members added yet.
+            </div>
+        </div>
+
+    </section>
+
+</main>
+
+<script src="script.js"></script>
+
+</body>
+</html>
